@@ -2,13 +2,16 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const authRoutes = express.Router();
 const User = require('../models/user-model.js');
+const passport = require('passport');
+const ensure= require('connect-ensure-login');
 
-authRoutes.get('/signup', (req, res, next) => {
+//                          redireect to the home page if log in
+authRoutes.get('/signup',ensure.ensureLoggedOut('/'),  (req, res, next) => {
     res.render('auth/signup-view.ejs');
 });
 
 
-authRoutes.post('/signup', (req, res, next) => {
+authRoutes.post('/signup',ensure.ensureLoggedOut('/'),(req, res, next) => {
     const signupUsername = req.body.signupUsername;
     const signupPassword = req.body.signupPassword;
     //dont let user submit blank signupUsernames or signupPassword
@@ -51,12 +54,22 @@ authRoutes.post('/signup', (req, res, next) => {
             res.redirect('/');
         });
     });
-
-
 });
 
+authRoutes.get('/logout',(req,res)=>{
+  req.logout();
+  res.redirect('/');
+});
+authRoutes.get('/login',ensure.ensureLoggedOut('/'), (req, res, next) => {
+    res.render("auth/login-view.ejs");
+});
 
+authRoutes.post('/login', ensure.ensureLoggedOut('/'),passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }
 
+));
 
 
 module.exports = authRoutes;

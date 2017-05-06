@@ -41,7 +41,23 @@ app.use(session({
 // it has to be after the session -express
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req,res,next)=>{
+  if (req.user) {
+res.locals.user = req.user;
+  }
+next();
+});
+
+
 //..... and before your routes
+
+// ================HOW PASSPORT WORKS==============================
+//passport goes through this
+// /.1our form
+// 2. LocalStrategy callback
+// 3.(if successful ) passport.serializeUser()
+// ======================================================
 
 //determines what to save in the session what put in the box
 passport.serializeUser((user, cb) => {
@@ -65,9 +81,19 @@ passport.deserializeUser((userId, cb) => {
 const LocalStrategy = require('passport-local').Strategy; // it gonna tell you if
 // yuo have a succesful login you can also do it i two steps instead of one
 const bcrypt = require('bcrypt');
-passport.use(new LocalStrategy(
-    //1st argument option to customize LocalStrategy
-    {},
+
+//IT ASSUMES THAT YOUR INPUT NAME WILL ME USERNAME AND YOUR PASSWORD WILL BE PASSWORD
+//if you wanna change it you have to let it know --------
+passport.use(new LocalStrategy(//                       |
+    //1st argument option to customize LocalStrategy    |
+      {                                 //<==============
+        // <input name = "loginUsername">
+usernameField:'loginUsername',
+        // <input name = "loginPassword">
+passwordField:'loginPassword'
+
+
+    },
     //2nd arg -> call back for e logic that validates log in
     (loginUsername, loginPassword, next) => {
         User.findOne({
@@ -86,7 +112,7 @@ passport.use(new LocalStrategy(
               return;
             }
             //tell passportif the passport dont match
-            if(bcrypt.compareSync(loginPassword,theUser.encryptedPassword)){
+            if(!bcrypt.compareSync(loginPassword,theUser.encryptedPassword)){
               //  false in 2 arg means log in faileds
               next(null,false);
               return;
@@ -112,6 +138,8 @@ const index = require('./routes/index');
 app.use('/', index);
 const myAuthRoutes = require('./routes/auth-route.js');
 app.use('/', myAuthRoutes);
+const UserRoute = require('./routes/user-routes.js');
+app.use('/', UserRoute);
 // ================================================================================
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
