@@ -12,7 +12,7 @@ const userSchema = new Schema(
   },
 
   // 2nd arg -> additional options
-  {
+  {//mongooose models options
     // Adds createdAt & updatedAt to documents
     timestamps: true
   }

@@ -8,7 +8,9 @@ const layouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+
 const User = require('./models/user-model.js');
+
 mongoose.connect('mongodb://localhost/passport-app');
 
 const app = express();
@@ -31,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(layouts);
 app.use(session({
+    // sessions option where you can put when the cookie expires and bunch of more option
     secret: 'my cool passport app',
     resave: true,
     saveUninitialized: true
@@ -42,14 +45,14 @@ app.use(passport.session());
 
 //determines what to save in the session what put in the box
 passport.serializeUser((user, cb) => {
-  //only when you log in
+    //only when you log in
     cb(null, user._id);
 });
 
 //where to get the rest of the users given (what in the box)
 passport.deserializeUser((userId, cb) => {
-  //callled every time AFTER LOG IN
-  //querying the database with the id
+    //callled every time AFTER LOG IN
+    //querying the database with the id
     User.findById(userId, (err, theUser) => {
         if (err) {
             cb(err);
@@ -59,6 +62,49 @@ passport.deserializeUser((userId, cb) => {
         cb(null, theUser);
     });
 });
+const LocalStrategy = require('passport-local').Strategy; // it gonna tell you if
+// yuo have a succesful login you can also do it i two steps instead of one
+const bcrypt = require('bcrypt');
+passport.use(new LocalStrategy(
+    //1st argument option to customize LocalStrategy
+    {},
+    //2nd arg -> call back for e logic that validates log in
+    (loginUsername, loginPassword, next) => {
+        User.findOne({
+            username: loginUsername
+        }, (err, theUser) => {
+            // tell passport if there was an erros (nothing we can do)
+            if (err) {
+                next(err);
+                return;
+            }
+            // tell passport if there is no user with given username
+            if (!theUser) {
+              //        fasle in 2nd arg mean log in filed
+              //          |
+              next(null,false);
+              return;
+            }
+            //tell passportif the passport dont match
+            if(bcrypt.compareSync(loginPassword,theUser.encryptedPassword)){
+              //  false in 2 arg means log in faileds
+              next(null,false);
+              return;
+            }
+            // give the passport the users details(success!)
+          next(null,theUser);
+        });
+    }
+
+));
+//if you have 3 method of log in you need three passport.use
+
+
+
+
+
+
+
 
 
 // ================================================================================
