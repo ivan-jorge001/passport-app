@@ -109,17 +109,20 @@ passwordField:'loginPassword'
             if (!theUser) {
               //        fasle in 2nd arg mean log in failed
               //          |
-              next(null,false);
+              next(null,false,{message:'Wrong User name budy'});
+              // req.flash (error) that what is referring to
               return;
             }
             //tell passportif the passport dont match
             if(!bcrypt.compareSync(loginPassword,theUser.encryptedPassword)){
               //  false in 2 arg means log in faileds
-              next(null,false);
+              next(null,false,{message:'wrong password friend'});
               return;
             }
             // give the passport the users details(success!)
-          next(null,theUser);
+          next(null,theUser,{message: `login successful ${theUser.username} successful`});
+          // req.flash (successful) that what is referring to 
+
         });
     }
 

@@ -78,9 +78,9 @@ authRoutes.get('/login',ensure.ensureLoggedOut('/'), (req, res, next) => {
 
 authRoutes.post('/login', ensure.ensureLoggedOut('/'),passport.authenticate('local', {
         successRedirect: '/',
-        successFlash:'login Successful. 😁',
+        successFlash:true,
         failureRedirect: '/login',
-        failureFlash:'Failed Bastard 😡'
+        failureFlash:true
     }
 
 ));
