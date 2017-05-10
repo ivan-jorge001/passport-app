@@ -1,4 +1,10 @@
 <h1><%= title %></h1>
+<%if( successMessage.length > 0){%>
+<div class = "success"><%= successMessage%></div>
+<%};%>
+<%if( passportSuccess.length > 0){%>
+<div class = "success"><%= passportSuccess%></div>
+<%};%>
 <p>Welcome to <%= title %></p>
 <%if(typeof user !=="undefined"){%>
   <p>hello,<%=user.name%> </p>

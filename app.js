@@ -8,6 +8,7 @@ const layouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const flash = require('connect-flash');
 
 const User = require('./models/user-model.js');
 
@@ -41,7 +42,7 @@ app.use(session({
 // it has to be after the session -express
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 app.use((req,res,next)=>{
   if (req.user) {
 res.locals.user = req.user;
@@ -106,7 +107,7 @@ passwordField:'loginPassword'
             }
             // tell passport if there is no user with given username
             if (!theUser) {
-              //        fasle in 2nd arg mean log in filed
+              //        fasle in 2nd arg mean log in failed
               //          |
               next(null,false);
               return;

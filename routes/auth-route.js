@@ -5,6 +5,9 @@ const User = require('../models/user-model.js');
 const passport = require('passport');
 const ensure= require('connect-ensure-login');
 
+
+
+
 //                          redireect to the home page if log in
 authRoutes.get('/signup',ensure.ensureLoggedOut('/'),  (req, res, next) => {
     res.render('auth/signup-view.ejs');
@@ -50,6 +53,13 @@ authRoutes.post('/signup',ensure.ensureLoggedOut('/'),(req, res, next) => {
                 next(err);
                 return;
             }
+            req.flash(
+              // 1st argument
+              'successfulsignup',
+// second its the actual message
+'you have register successfully'
+
+            );
             //redirect to home page if
             res.redirect('/');
         });
@@ -66,7 +76,9 @@ authRoutes.get('/login',ensure.ensureLoggedOut('/'), (req, res, next) => {
 
 authRoutes.post('/login', ensure.ensureLoggedOut('/'),passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/login'
+        successFlash:true,
+        failureRedirect: '/login',
+        failureFlash:true
     }
 
 ));

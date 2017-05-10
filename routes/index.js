@@ -14,7 +14,10 @@ console.log('user (user passport)',req.user);
 //   res.render('not loge in user');
 // }
   res.render('index',{
-    user:req.user
+    successMessage:req.flash('successfulsignup'),
+    passportSuccess:req.flash('success')
+    // ========================|==================
+//                             default success key fro  passport    
   });
 });
 

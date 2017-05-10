@@ -12,3 +12,9 @@ a {
   border-radius: 3px;
   padding: 15px;
 }
+.success{
+  background-color: chartreuse;
+  color:black;
+  border-radius: 3px;
+  padding: 15px;
+}
