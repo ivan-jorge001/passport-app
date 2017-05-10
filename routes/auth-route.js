@@ -71,14 +71,16 @@ authRoutes.get('/logout',(req,res)=>{
   res.redirect('/');
 });
 authRoutes.get('/login',ensure.ensureLoggedOut('/'), (req, res, next) => {
-    res.render("auth/login-view.ejs");
+    res.render("auth/login-view.ejs",{
+      errorMessage:req.flash('error')
+    });
 });
 
 authRoutes.post('/login', ensure.ensureLoggedOut('/'),passport.authenticate('local', {
         successRedirect: '/',
-        successFlash:true,
+        successFlash:'login Successful. 😁',
         failureRedirect: '/login',
-        failureFlash:true
+        failureFlash:'Failed Bastard 😡'
     }
 
 ));

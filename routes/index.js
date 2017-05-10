@@ -13,11 +13,12 @@ console.log('user (user passport)',req.user);
 // }else{
 //   res.render('not loge in user');
 // }
+console.log();
   res.render('index',{
     successMessage:req.flash('successfulsignup'),
     passportSuccess:req.flash('success')
     // ========================|==================
-//                             default success key fro  passport    
+//                             default success key fro  passport
   });
 });
 

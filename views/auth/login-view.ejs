@@ -1,7 +1,9 @@
 <h2>Log In</h2>
-<%if(typeof errorMessage !== "undefined"){%>
-  <div class ="error"><%=errorMessage%></div>
+
+<%if( errorMessage.length > 0){%>
+<div class = "error"><%= errorMessage%></div>
 <%};%>
+
 <form class="" action="/login" method="post">
 <label for="username-input">Username: </label>
               <!-- usernameField:'loginUsername',-->
