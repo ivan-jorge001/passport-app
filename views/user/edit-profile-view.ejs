@@ -1,15 +1,33 @@
-<h2> edit your profile</h2>
-<form class="" action="/profile/edit" method="post">
-<label for="name-input">Your Name: </label>
-<input id="name-input" name="editName" value="<%=user.name%>" type="text">
-<br>
-<label for="username-input">Account Name: </label>
-<input id="username-input" name="editUsername" value="<%=user.username%>" type="text">
-<br>
-<label for="current-password-input">Password: </label>
-<input id="current-password-input" name="current-editPassword" value="" type="password">
-<br>
-<label for="new-password-input">Password: </label>
-<input id="new-password-input" name="new-editPassword" value="" type="password">
-<button>save</button>
+<h2> Edit Your Profile </h2>
+
+<% if (typeof successMessage !== 'undefined' && successMessage.length > 0) { %>
+  <div class="success"> <%= successMessage %> </div>
+<% } %>
+
+<% if (typeof errorMessage !== 'undefined') { %>
+  <div class="error"> <%= errorMessage %> </div>
+<% } %>
+
+<form method="post" action="/profile/edit">
+  <label for="name-input"> Your Name </label>
+  <input  id="name-input" type="text"
+      name="profileName" value="<%= user.name %>">
+  <br>
+
+  <label for="username-input"> Account Name </label>
+  <input  id="username-input" type="text"
+      name="profileUsername" value="<%= user.username %>">
+  <br>
+
+  <label for="current-password-input"> Current Password </label>
+  <input  id="current-password-input" type="password"
+      name="profileCurrentPassword">
+  <br>
+
+  <label for="new-password-input"> New Password </label>
+  <input  id="new-password-input" type="password"
+      name="profileNewPassword">
+  <br>
+
+  <button> Save </button>
 </form>

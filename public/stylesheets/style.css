@@ -6,15 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
-.error{
+
+.error {
   background-color: red;
-  color:white;
+  color: white;
   border-radius: 3px;
   padding: 15px;
 }
-.success{
+
+.success {
   background-color: chartreuse;
-  color:black;
+  color: black;
   border-radius: 3px;
   padding: 15px;
 }
