@@ -109,4 +109,40 @@ routerThingy.post('/profile/edit',
 );
 
 
+
+routerThingy.get('/user',(req,res,next)=>{
+  if(!req.user || req.user.role !== 'admin'){
+    // show404page cuz you dont want them to know the page exist
+    next();
+    return;
+  }
+  User.find((err,userList)=>{
+    if (err) {
+      next(err);
+      return;
+    }
+    res.render('user/users-list-view.ejs',{
+      user:userList,
+      successMessage:req.flash('success')
+    });
+  });
+});
+
+
+routerThingy.post('/user/:id/admin',(req,res,next)=>{
+  if(!req.user || req.user.role !== 'admin'){
+    // show404page cuz you dont want them to know the page exist
+    next();
+    return;
+  }
+  User.findByIdAndUpdate(req.params.id,{role:'admin'},(err,userList)=>{
+    if (err) {
+      next(err);
+      return;
+    }
+
+req.flash('success',`user${userList.name}is now an admin`);
+    res.redirect('/user');
+  });
+});
 module.exports = routerThingy;

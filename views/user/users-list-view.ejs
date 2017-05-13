@@ -1,0 +1,21 @@
+<h2>All Users</h2>
+<%if(successMessage.length> 0){%>
+  <div class="success">
+<%=successMessage%>
+  </div>
+<%}%>
+<ul>
+  <%user.forEach((oneUser)=>{%>
+<li><%=oneUser.name%></li>
+<h3>username:<%=oneUser.username%></h3>
+<h3>facebookID:<%=oneUser.facebookID%></h3>
+<h3>googleID:<%=oneUser.googleID%></h3>
+<h3>Role:<%=oneUser.role%></h3>
+<%if (oneUser.role !== 'admin') {%>
+  <form class="" action="/user/<%=oneUser._id%>/admin" method="post">
+  <button>Upgrade</button>
+  </form>
+<%}%>
+
+  <%});%>
+</ul>

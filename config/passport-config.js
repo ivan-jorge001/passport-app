@@ -15,8 +15,8 @@ passport.serializeUser((user, cb) => {
     cb(null, user._id);
 });
 passport.use(new FbStrategy({
-        clientID: '641735956011799',
-        clientSecret: 'efd34fa049504c0f637fc6293bee2443',
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
         callbackURL: '/auth/facebook/callback'
     },
     (accessToken, refreshToken, profile, done) => {
@@ -52,17 +52,17 @@ passport.use(new FbStrategy({
 ));
 passport.use(new GoogleStrategy({
 
-    clientID: '106231132707-b85rvjnbusdski72d0je1gl8inqrumuv.apps.googleusercontent.com',
-    clientSecret: '3Wm_8sapv7AFqI6-y0hli6dC',
+    clientID: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: '/auth/google/callback'
 }, (accessToken, refreshToken, profile, done) => {
-  console.log(' =================================================================');
-  console.log('facebook Profile =======================');
-  console.log(profile);
-  console.log(' ===================================================================');
+    console.log(' =================================================================');
+    console.log('facebook Profile =======================');
+    console.log(profile);
+    console.log(' ===================================================================');
     User.findOne({
         googleID: profile.id,
-        name:profile.displayName
+        name: profile.displayName
     }, (err, foundUser) => {
         if (err) {
             done(err);
@@ -77,14 +77,14 @@ passport.use(new GoogleStrategy({
 
         });
         if (!theUser.name) {
-          theUser.name = profile.emails[0].value;
+            theUser.name = profile.emails[0].value;
         }
         theUser.save((err) => {
             if (err) {
                 done(err);
                 return;
             }
-            done(null,theUser);
+            done(null, theUser);
         });
     });
 }));

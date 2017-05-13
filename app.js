@@ -9,9 +9,11 @@ const mongoose     = require('mongoose');
 const session      = require('express-session');
 const passport     = require('passport');
 const flash        = require('connect-flash');
-
+// this is only for dev only but in prod doesnt do anything
+require ('dotenv').config();
 require('./config/passport-config.js');
-mongoose.connect('mongodb://localhost/passport-app');
+
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 
@@ -74,6 +76,8 @@ app.use('/', myAuthRoutes);
 
 const myUserRoutes = require('./routes/user-routes.js');
 app.use('/', myUserRoutes);
+const myRoomRoutes = require('./routes/room-routes.js');
+app.use('/',myRoomRoutes);
 // ----------------------------------------------------------
 
 

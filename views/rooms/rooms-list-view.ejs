@@ -1,0 +1,24 @@
+<%if (rooms.length === 0) {%>
+    <h2>you dont have a room yet</h2>
+    <a href="/rooms/new">Create a Room </a>
+    <%}else {%>
+        <h2> Your Rooms</h2>
+        <%if (successMessage.length>0){%>
+            <div class="success">
+                <%= successMessage%>
+            </div>
+
+            <ul>
+                <%rooms.forEach((oneRoom)=>{%>
+                    <li>
+                        <h3><%= oneRoom.name%></h3>
+                        <p>
+                            <%= oneRoom.description%>
+                        </p>
+                        <img src="<%= oneRoom.photoAddress%>" alt="">
+                    </li>
+                    <%});%>
+            </ul>
+            <%}%>
+                <%}%>
+                <a href="/rooms/new">Create a room</a>

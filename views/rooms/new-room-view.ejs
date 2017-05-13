@@ -1,0 +1,15 @@
+<h1>Add a Room </h1>
+<%#            send the infon in lil packet it need this everythime uploading a file to send it from browser        %>
+<%#                                                       |||     %>
+<form class="" action="/rooms/new" method="post" enctype="multipart/form-data">
+<label for="room-name-input">Name: </label>
+<input id = "room-name-input"type="text" name="roomName" placeholder="ex. my awesome space room">
+<br>
+<label for="room-desc-input">Description: </label>
+<textarea id = "room-desc-input" name="roomDescription" placeholder="ex. its a beautiful room in Space!"></textarea>
+<br>
+<label for="room-photo-input"></label>
+<input id ="room-photo-input" type="file" name="roomPhoto" value="">
+<br>
+<button>Save Room</button>
+</form>

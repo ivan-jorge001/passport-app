@@ -156,21 +156,22 @@ authRoutes.get('/auth/facebook/', passport.authenticate('facebook'));
 
 // the address facebook is gonna come back to after user says yes or no
 authRoutes.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    successRedirect:'/',
-    failureRedirect:'/login'
+    successRedirect: '/',
+    failureRedirect: '/login'
     //here i can put the flash to see if it works
 }));
 //                                                     gooogle is built in to the package passport auth as in [GoogleStrategy]
-authRoutes.get('/auth/google/', passport.authenticate('google',{
-  scope:["https://www.googleapis.com/auth/plus.login",
-          "https://www.googleapis.com/auth/plus.profile.emails.read"]
+authRoutes.get('/auth/google/', passport.authenticate('google', {
+    scope: ["https://www.googleapis.com/auth/plus.login",
+        "https://www.googleapis.com/auth/plus.profile.emails.read"
+    ]
 }));
 //            link to this address should be login in with facebook
 
 // the address facebook is gonna come back to after user says yes or no
 authRoutes.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect:'/',
-    failureRedirect:'/login'
+    successRedirect: '/',
+    failureRedirect: '/login'
     //here i can put the flash to see if it works
 }));
 
